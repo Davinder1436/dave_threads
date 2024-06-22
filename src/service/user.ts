@@ -13,6 +13,7 @@ export interface getUserTokenPayload{
     email:string;
     password:string;
 }
+const secret = process.env.JWT_SECRET || "secret"
 
 class UserService {
     public static createUser(payload:createUserPayload){
@@ -33,7 +34,6 @@ class UserService {
     }
     public static GetUserById(id:string){
         return myPrisma.user.findUnique({where:{id}})
-        
     }
     private static GetUSerByEmail(email:string){
         const user = myPrisma.user.findUnique({where:{email}})
@@ -48,12 +48,13 @@ class UserService {
         const hashedPassword = createHmac("sha256",salt).update(password).digest("hex")
         if(hashedPassword !== user.password){throw new Error("Incorrect password")}
 
-        const token = JWT.sign({id:user.id,email:user.email}, "davinxder")
+        const token = JWT.sign({id:user.id,email:user.email}, secret)
         return token;
     }
+
     public static async decodeJWT(token:string){
         try{
-return JWT.verify(token,"davinxder")}
+return JWT.verify(token,secret)}
         catch(error){
             return null
         }

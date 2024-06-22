@@ -13,12 +13,10 @@ const PORT = Number(process.env.PORT) || 8000;
 
 
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-})
+
 const qlserver = await graphqlService();
 
-app.use("/graphql", expressMiddleware(qlserver,{context :async({req})=>{
+app.use("/", expressMiddleware(qlserver,{context :async({req})=>{
     //@ts-ignore
     const token = req.headers["token"];
     try{
@@ -32,11 +30,11 @@ app.use("/graphql", expressMiddleware(qlserver,{context :async({req})=>{
 
 }}));
 
+
 app.listen(PORT , () => {
     console.log(`Server is running on port ${PORT}`)
 })
 }
 
 main()
-
 
