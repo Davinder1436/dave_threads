@@ -10,7 +10,7 @@ async function main() {
         res.send("Hello Dave");
     });
     const qlserver = await graphqlService();
-    app.use("/api/graphql", expressMiddleware(qlserver, { context: async ({ req }) => {
+    app.use("/graphql", expressMiddleware(qlserver, { context: async ({ req }) => {
             //@ts-ignore
             const token = req.headers["token"];
             try {
