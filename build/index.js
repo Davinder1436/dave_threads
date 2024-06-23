@@ -6,11 +6,11 @@ async function main() {
     const app = express();
     app.use(express.json());
     const PORT = Number(process.env.PORT) || 8000;
-    app.get("/", (req, res) => {
-        res.send("Hello World!");
+    app.get("/api", (req, res) => {
+        res.send("Hello Dave");
     });
     const qlserver = await graphqlService();
-    app.use("/graphql", expressMiddleware(qlserver, { context: async ({ req }) => {
+    app.use("/api/graphql", expressMiddleware(qlserver, { context: async ({ req }) => {
             //@ts-ignore
             const token = req.headers["token"];
             try {

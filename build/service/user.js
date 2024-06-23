@@ -1,6 +1,7 @@
 import JWT from "jsonwebtoken";
 import { myPrisma } from "../lib/db.js";
 import { createHmac, randomBytes } from "node:crypto";
+const secret = process.env.JWT_SECRET || "secret";
 class UserService {
     static createUser(payload) {
         const { firstName, lastName, email, password } = payload;
@@ -34,12 +35,12 @@ class UserService {
         if (hashedPassword !== user.password) {
             throw new Error("Incorrect password");
         }
-        const token = JWT.sign({ id: user.id, email: user.email }, "davinxder");
+        const token = JWT.sign({ id: user.id, email: user.email }, secret);
         return token;
     }
     static async decodeJWT(token) {
         try {
-            return JWT.verify(token, "davinxder");
+            return JWT.verify(token, secret);
         }
         catch (error) {
             return null;

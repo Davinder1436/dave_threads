@@ -5,18 +5,14 @@ export async function graphqlService() {
     ${User.typeDefs}
 
 
-    type Query{ ${User.queries}
-    getContext: String
-     } 
+    type Query{ ${User.queries}}
+    
 
-    type Mutation {${User.mutations}}
+
+    type Mutation{ ${User.mutations}}
    `,
         resolvers: {
             Query: {
-                getContext: (_, parameters, context) => {
-                    console.log(context);
-                    return "okay";
-                },
                 ...User.resolvers.queries
             },
             Mutation: {

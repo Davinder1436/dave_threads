@@ -24,7 +24,7 @@ getCurrentLoggedInUser: async (_:any,payload:any , context:any) => {
 }
 const mutations = {
 
-    createUser: async (_:any, payload:createUserPayload) => {
+    createUser : async (_:any, payload:createUserPayload) => {
         const res = await UserService.createUser(payload)
         return res.id
     }

@@ -2,17 +2,18 @@ import { ApolloServer } from '@apollo/server';
 import { User } from './user/index.js';
 export async function graphqlService (){
 
-    
+
 const qlServer = new ApolloServer({typeDefs: 
     
     `
     ${User.typeDefs}
 
 
-    type Query{ ${User.queries}
+    type Query{ ${User.queries}}
     
 
-    type Mutation {${User.mutations}}
+
+    type Mutation{ ${User.mutations}}
    `
     , resolvers: {
         Query:{
