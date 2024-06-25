@@ -28,6 +28,15 @@ const queries = {
         else {
             throw new Error("sign in to access posts");
         }
+    },
+    getUserByPostId: async (_, id, context) => {
+        if (context && context.user) {
+            const user = await PostServices.getUserByPostId(id);
+            return user;
+        }
+        else {
+            throw new Error("sign in to access");
+        }
     }
 };
 const mutations = {
@@ -40,6 +49,14 @@ const mutations = {
             const id = context.user.id;
             const res = await PostServices.createPost(id, payload);
             return res.id;
+        }
+        throw new Error("invalid user sign in first");
+    },
+    likePost: async (_, payload, context) => {
+        if (context && context.user) {
+            const id = context.user.id;
+            const res = await PostServices.likePost(id, payload.postId);
+            return res;
         }
         throw new Error("invalid user sign in first");
     }

@@ -8,4 +8,6 @@ getPostsByUser:[Post]
 
 getPostsByEmail(email: String!): [Post]
 
+getUserByPostId(id:String!):User
+
 `;

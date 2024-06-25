@@ -35,14 +35,14 @@ class UserService {
     public static GetUserById(id:string){
         return myPrisma.user.findUnique({where:{id}})
     }
-    private static GetUSerByEmail(email:string){
+    public  static GetUserByEmail(email:string){
         const user = myPrisma.user.findUnique({where:{email}})
         return user
     }
 
     public static async GetUserToken(payload:getUserTokenPayload){
         const {email,password} = payload;
-        const user = await UserService.GetUSerByEmail(email);
+        const user = await UserService.GetUserByEmail(email);
         if (!user){throw new Error("User not found")}
         const salt = user.salt
         const hashedPassword = createHmac("sha256",salt).update(password).digest("hex")

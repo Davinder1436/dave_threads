@@ -20,13 +20,13 @@ class UserService {
     static GetUserById(id) {
         return myPrisma.user.findUnique({ where: { id } });
     }
-    static GetUSerByEmail(email) {
+    static GetUserByEmail(email) {
         const user = myPrisma.user.findUnique({ where: { email } });
         return user;
     }
     static async GetUserToken(payload) {
         const { email, password } = payload;
-        const user = await UserService.GetUSerByEmail(email);
+        const user = await UserService.GetUserByEmail(email);
         if (!user) {
             throw new Error("User not found");
         }

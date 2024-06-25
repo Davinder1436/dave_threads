@@ -1,5 +1,5 @@
 import { myPrisma } from "../lib/db.js";
-
+import  UserService  from "./user.js";
 export interface createPostPayload{
  content: string;
  imageUrl?: string;
@@ -11,19 +11,49 @@ export default class PostService {
 
     public static async createPost( id:string, payload:createPostPayload){
         const {content, imageUrl, videoUrl} = payload;
-        return myPrisma.post.create(
-                {data:{
-                    content,
-                    imageURL:imageUrl,
-                    VideoURL:videoUrl,
-                    creatorId:id
-                }}
-        )
+        return myPrisma.user.update({
+            where:{id},
+            data:{
+                posts:{
+                    create:{
+                        content,
+                        imageURL:imageUrl,
+                        VideoURL:videoUrl
+
+
+                    }
+                }
+            }
+
+        })
+        
     }
-    public static async getPosts(creatorId:string){
-        return myPrisma.post.findMany({where:{creatorId}})
+    public static async getPosts(userId:string){
+        return myPrisma.post.findMany({where:{userId}})
     }
     public static async getPostsByemail(email:string){
-        return myPrisma.post.findMany({where:{creator:{email}}})
+        console.log("running")
+        const post =  myPrisma.user.findUnique({where:{email:email}}).then(
+            (user)=> myPrisma.post.findMany({where:{userId:user?.id}})
+        )
+        
+       
+    }
+    public static async getUserByPostId(id:string){
+        return myPrisma.post.findUnique(
+            {where:{id},include:{user:true}}
+        )
+    }
+    public static async deletePost(id:string){
+        return myPrisma.post.delete({where:{id}})
+    }
+    public static async likePost(userId:string,postId:string){
+        return myPrisma.like.create({
+            data:{
+                userId,
+                postId
+            }
+        })
+        
     }
 }

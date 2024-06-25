@@ -41,7 +41,19 @@ getPostsByEmail: async(_:any, email:string, context:any) => {
     else{
         throw new Error("sign in to access posts")
     }
+},
+
+getUserByPostId: async(_:any, id:string, context:any) => {
+
+    if(context && context.user){
+        const user= await PostServices.getUserByPostId(id)
+        return user;
+    }
+    else{
+        throw new Error("sign in to access")
+    }
 }
+
 
 
 }
@@ -60,7 +72,17 @@ const mutations = {
             return res.id
         }
         throw new Error("invalid user sign in first")
+    },
+
+    likePost: async (_:any, payload:{postId:string}, context:any) => {
+        if(context && context.user){
+            const id = context.user.id
+            const res = await PostServices.likePost(id, payload.postId)
+            return res
+        }
+        throw new Error("invalid user sign in first")
     }
+    
 }
   
 

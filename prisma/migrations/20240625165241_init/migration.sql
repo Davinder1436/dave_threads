@@ -19,7 +19,7 @@ CREATE TABLE "Post" (
     "content" TEXT NOT NULL,
     "imageURL" TEXT,
     "VideoURL" TEXT,
-    "creatorId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -52,7 +52,7 @@ CREATE TABLE "Like" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE INDEX "Post_creatorId_idx" ON "Post"("creatorId");
+CREATE INDEX "Post_userId_idx" ON "Post"("userId");
 
 -- CreateIndex
 CREATE INDEX "comments_authorId_idx" ON "comments"("authorId");
@@ -67,7 +67,7 @@ CREATE INDEX "Like_userId_idx" ON "Like"("userId");
 CREATE INDEX "Like_postId_idx" ON "Like"("postId");
 
 -- AddForeignKey
-ALTER TABLE "Post" ADD CONSTRAINT "Post_creatorId_fkey" FOREIGN KEY ("creatorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

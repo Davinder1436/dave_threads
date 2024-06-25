@@ -4,4 +4,7 @@ createUser(firstName: String!, lastName: String! ,email: String!,password: Strin
 
 createPost(content: String!,imageUrl: String, videoUrl: String ):String
 
+likePost(userid:ID!,postId:ID!):String
+
 `;
+
