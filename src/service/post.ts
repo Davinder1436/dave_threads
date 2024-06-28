@@ -31,11 +31,12 @@ export default class PostService {
     public static async getPosts(userId:string){
         return myPrisma.post.findMany({where:{userId}})
     }
-    public static async getPostsByemail(email:string){
-        console.log("running")
-        const post =  myPrisma.user.findUnique({where:{email:email}}).then(
-            (user)=> myPrisma.post.findMany({where:{userId:user?.id}})
-        )
+    public static async getPostsByemail(payload:any){
+        const {email} = payload
+        
+        const user = await UserService.GetUserByEmail(email);
+       
+        return myPrisma.post.findMany({where:{userId:user?.id}})
         
        
     }

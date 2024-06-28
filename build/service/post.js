@@ -1,4 +1,5 @@
 import { myPrisma } from "../lib/db.js";
+import UserService from "./user.js";
 export default class PostService {
     static async createPost(id, payload) {
         const { content, imageUrl, videoUrl } = payload;
@@ -18,9 +19,10 @@ export default class PostService {
     static async getPosts(userId) {
         return myPrisma.post.findMany({ where: { userId } });
     }
-    static async getPostsByemail(email) {
-        console.log("running");
-        const post = myPrisma.user.findUnique({ where: { email: email } }).then((user) => myPrisma.post.findMany({ where: { userId: user?.id } }));
+    static async getPostsByemail(payload) {
+        const { email } = payload;
+        const user = await UserService.GetUserByEmail(email);
+        return myPrisma.post.findMany({ where: { userId: user?.id } });
     }
     static async getUserByPostId(id) {
         return myPrisma.post.findUnique({ where: { id }, include: { user: true } });

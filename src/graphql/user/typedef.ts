@@ -28,7 +28,7 @@ postId : ID!
 
 type Comment{
 id:ID!
-authorId : ID!
+userId : ID!
 postId : ID!
 content : String!
 createdAt : String!

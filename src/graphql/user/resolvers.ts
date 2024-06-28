@@ -2,6 +2,7 @@
 import UserService, { createUserPayload, getUserTokenPayload } from "../../service/user.js"
 
 import PostServices, { createPostPayload } from "../../service/post.js"
+import commentServices from "../../service/comment.js"
 
 
 const queries = {
@@ -78,6 +79,15 @@ const mutations = {
         if(context && context.user){
             const id = context.user.id
             const res = await PostServices.likePost(id, payload.postId)
+            return res
+        }
+        throw new Error("invalid user sign in first")
+    },
+    commentPost: async (_:any, payload:{postId:string, content:string}, context:any) => {
+        if(context && context.user){
+            const userId = context.user.id
+            const commentPayload = {userId, postId: payload.postId, content: payload.content}
+            const res = await commentServices.createComment(commentPayload)
             return res
         }
         throw new Error("invalid user sign in first")

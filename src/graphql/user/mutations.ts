@@ -6,5 +6,7 @@ createPost(content: String!,imageUrl: String, videoUrl: String ):String
 
 likePost(userid:ID!,postId:ID!):String
 
+commentPost(userid:ID!,postId:ID!,content:String!):String
+
 `;
 
